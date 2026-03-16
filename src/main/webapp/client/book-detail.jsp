@@ -64,11 +64,20 @@
 
         <div class="book-detail-container">
             <div class="book-detail-image">
-                <div style="width: 100%; height: 400px; background: linear-gradient(135deg, #d8f3dc 0%, #95d5b2 50%, #74c69d 100%); 
-                            border-radius: 12px; display: flex; align-items: center; justify-content: center; 
-                            box-shadow: 0 8px 16px rgba(0,0,0,0.1);">
-                    <i class="fas fa-book" style="font-size: 120px; color: #2d6a4f; opacity: 0.5;"></i>
-                </div>
+                <c:choose>
+                    <c:when test="${not empty book.imageUrl and book.imageUrl ne 'null'}">
+                        <img src="${pageContext.request.contextPath}/${book.imageUrl}" 
+                             alt="${book.title}" 
+                             style="width: 100%; height: auto; border-radius: 4px; box-shadow: 0 8px 16px rgba(0,0,0,0.1);">
+                    </c:when>
+                    <c:otherwise>
+                        <div style="width: 100%; height: 400px; background-color: var(--background-light); 
+                                    border-radius: 4px; display: flex; align-items: center; justify-content: center; 
+                                    box-shadow: 0 8px 16px rgba(0,0,0,0.1);">
+                            <i class="fas fa-book" style="font-size: 120px; color: var(--text-dark); opacity: 0.5;"></i>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
             </div>
             
             <div class="book-detail-info">

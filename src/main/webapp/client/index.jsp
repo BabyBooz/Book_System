@@ -104,7 +104,16 @@
                 <c:forEach var="book" items="${books}">
                     <div class="book-card">
                         <div class="book-image">
-                            <i class="fas fa-book" style="font-size: 48px; opacity: 0.5;"></i>
+                            <c:choose>
+                                <c:when test="${not empty book.imageUrl and book.imageUrl ne 'null'}">
+                                    <img src="${pageContext.request.contextPath}/${book.imageUrl}" 
+                                         alt="${book.title}" 
+                                         style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
+                                </c:when>
+                                <c:otherwise>
+                                    <i class="fas fa-book" style="font-size: 48px; opacity: 0.5;"></i>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                         <div class="book-title">${book.title}</div>
                         <div class="book-author">

@@ -54,7 +54,7 @@
         
         <div id="addForm" style="display: none; background: white; padding: 20px; border-radius: 4px; margin-bottom: 20px;">
             <h4 style="color: #2d6a4f;">Thêm sách mới</h4>
-            <form action="${pageContext.request.contextPath}/admin/products" method="post">
+            <form action="${pageContext.request.contextPath}/admin/products" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="add">
                 <div class="form-group">
                     <label>Tên sách:</label>
@@ -92,8 +92,9 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Hình ảnh URL:</label>
-                    <input type="text" name="imageUrl">
+                    <label><i class="fas fa-image"></i> Hình ảnh:</label>
+                    <input type="file" name="image" accept="image/*" onchange="previewImage(this, 'addPreview')">
+                    <div id="addPreview" style="margin-top: 10px;"></div>
                 </div>
                 <button type="submit" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Thêm
@@ -159,9 +160,10 @@
         
         <div id="editForm" style="display: none; background: white; padding: 20px; border-radius: 4px; margin-top: 20px;">
             <h4 style="color: #2d6a4f;">Sửa thông tin sách</h4>
-            <form action="${pageContext.request.contextPath}/admin/products" method="post">
+            <form action="${pageContext.request.contextPath}/admin/products" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="update">
                 <input type="hidden" name="bookId" id="editBookId">
+                <input type="hidden" name="oldImageUrl" id="editOldImageUrl">
                 <div class="form-group">
                     <label>Tên sách:</label>
                     <input type="text" name="title" id="editTitle" required>
@@ -198,8 +200,13 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Hình ảnh URL:</label>
-                    <input type="text" name="imageUrl" id="editImageUrl">
+                    <label><i class="fas fa-image"></i> Hình ảnh hiện tại:</label>
+                    <div id="currentImage" style="margin: 10px 0;"></div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-upload"></i> Thay đổi hình ảnh (để trống nếu không đổi):</label>
+                    <input type="file" name="image" accept="image/*" onchange="previewImage(this, 'editPreview')">
+                    <div id="editPreview" style="margin-top: 10px;"></div>
                 </div>
                 <button type="submit" class="btn btn-primary">
                     <i class="fas fa-save"></i> Cập nhật
@@ -244,13 +251,35 @@
                 document.getElementById('editAuthorId').value = book.authorId;
                 document.getElementById('editGenreId').value = book.genreId;
                 document.getElementById('editStatus').value = book.status ? '1' : '0';
-                document.getElementById('editImageUrl').value = book.imageUrl;
+                document.getElementById('editOldImageUrl').value = book.imageUrl;
+                
+                // Hiển thị ảnh hiện tại
+                var currentImageDiv = document.getElementById('currentImage');
+                if (book.imageUrl && book.imageUrl !== 'null' && book.imageUrl !== '') {
+                    currentImageDiv.innerHTML = '<img src="${pageContext.request.contextPath}/' + book.imageUrl + '" style="max-width: 200px; max-height: 200px; border-radius: 4px; border: 1px solid #ddd;">';
+                } else {
+                    currentImageDiv.innerHTML = '<p style="color: #999;">Chưa có ảnh</p>';
+                }
+                
                 document.getElementById('editForm').style.display = 'block';
                 document.getElementById('editForm').scrollIntoView({ behavior: 'smooth' });
             }
         }
         function hideEditForm() {
             document.getElementById('editForm').style.display = 'none';
+        }
+        
+        function previewImage(input, previewId) {
+            var preview = document.getElementById(previewId);
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.innerHTML = '<img src="' + e.target.result + '" style="max-width: 200px; max-height: 200px; border-radius: 4px; border: 1px solid #ddd;">';
+                }
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.innerHTML = '';
+            }
         }
     </script>
 </body>
