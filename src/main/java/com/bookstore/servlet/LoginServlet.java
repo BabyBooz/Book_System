@@ -27,8 +27,20 @@ public class LoginServlet extends HttpServlet {
         
         if (user != null) {
             HttpSession session = request.getSession();
-            session.setAttribute("user", user);
-            response.sendRedirect(request.getContextPath() + "/");
+            
+            // Phân quyền dựa trên role
+            if ("admin".equals(user.getRole())) {
+                // Admin: set session admin và redirect đến admin dashboard
+                session.setAttribute("admin", user);
+                response.sendRedirect(request.getContextPath() + "/admin/dashboard");
+            } else if ("customer".equals(user.getRole())) {
+                // Customer: set session user và redirect đến trang chủ
+                session.setAttribute("user", user);
+                response.sendRedirect(request.getContextPath() + "/");
+            } else {
+                request.setAttribute("error", "Role không hợp lệ!");
+                request.getRequestDispatcher("/client/login.jsp").forward(request, response);
+            }
         } else {
             request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng!");
             request.getRequestDispatcher("/client/login.jsp").forward(request, response);

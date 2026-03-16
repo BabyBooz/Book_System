@@ -2,34 +2,65 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Bill Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý đơn hàng - Admin</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <div class="admin-header">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <h2>Bill Manager</h2>
-                <p>Welcome: ${sessionScope.admin.username}</p>
-            </div>
-            <div style="display: flex; gap: 10px;">
-                <a href="${pageContext.request.contextPath}/admin/dashboard" class="btn btn-secondary">Dashboard</a>
-                <a href="${pageContext.request.contextPath}/admin/logout" class="btn btn-danger">Logout</a>
-            </div>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="${pageContext.request.contextPath}/admin/dashboard" class="logo">
+                <i class="fas fa-user-shield"></i> Admin Panel
+            </a>
+            <nav class="nav-menu">
+                <a href="${pageContext.request.contextPath}/admin/dashboard">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="${pageContext.request.contextPath}/admin/customers">
+                    <i class="fas fa-users"></i> Khách hàng
+                </a>
+                <a href="${pageContext.request.contextPath}/admin/products">
+                    <i class="fas fa-box"></i> Sản phẩm
+                </a>
+                <a href="${pageContext.request.contextPath}/admin/genres">
+                    <i class="fas fa-tags"></i> Danh mục
+                </a>
+                <a href="${pageContext.request.contextPath}/admin/bills">
+                    <i class="fas fa-file-invoice"></i> Đơn hàng
+                </a>
+                <span class="user-info">
+                    <i class="fas fa-user"></i> ${sessionScope.admin.username}
+                </span>
+                <a href="${pageContext.request.contextPath}/admin/logout">
+                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                </a>
+            </nav>
         </div>
-    </div>
+    </header>
     
     <div class="admin-container">
-        <h3 style="color: #2d6a4f; margin-bottom: 20px;">Quản lý hóa đơn</h3>
+        <h2 style="color: #2d6a4f; margin-bottom: 30px; font-size: 32px;">
+            <i class="fas fa-file-invoice"></i> Quản lý đơn hàng
+        </h2>
         
         <div style="margin-bottom: 20px; display: flex; gap: 10px;">
-            <a href="${pageContext.request.contextPath}/admin/bills" class="btn ${empty currentStatus ? 'btn-primary' : 'btn-secondary'}">Tất cả</a>
-            <a href="${pageContext.request.contextPath}/admin/bills?status=wait" class="btn ${'wait' eq currentStatus ? 'btn-primary' : 'btn-secondary'}">Chờ xử lý</a>
-            <a href="${pageContext.request.contextPath}/admin/bills?status=process" class="btn ${'process' eq currentStatus ? 'btn-primary' : 'btn-secondary'}">Đang xử lý</a>
-            <a href="${pageContext.request.contextPath}/admin/bills?status=done" class="btn ${'done' eq currentStatus ? 'btn-primary' : 'btn-secondary'}">Hoàn thành</a>
+            <a href="${pageContext.request.contextPath}/admin/bills" class="btn ${empty currentStatus ? 'btn-primary' : 'btn-secondary'}">
+                <i class="fas fa-list"></i> Tất cả
+            </a>
+            <a href="${pageContext.request.contextPath}/admin/bills?status=wait" class="btn ${'wait' eq currentStatus ? 'btn-primary' : 'btn-secondary'}">
+                <i class="fas fa-clock"></i> Chờ xử lý
+            </a>
+            <a href="${pageContext.request.contextPath}/admin/bills?status=process" class="btn ${'process' eq currentStatus ? 'btn-primary' : 'btn-secondary'}">
+                <i class="fas fa-spinner"></i> Đang xử lý
+            </a>
+            <a href="${pageContext.request.contextPath}/admin/bills?status=done" class="btn ${'done' eq currentStatus ? 'btn-primary' : 'btn-secondary'}">
+                <i class="fas fa-check-circle"></i> Hoàn thành
+            </a>
         </div>
         
         <div class="data-table">
@@ -66,7 +97,9 @@
                             </td>
                             <td>
                                 <a href="${pageContext.request.contextPath}/admin/bills?orderId=${order.orderId}" 
-                                   class="btn btn-primary" style="padding: 4px 8px; font-size: 12px;">View</a>
+                                   class="btn btn-primary" style="padding: 6px 12px; font-size: 13px;">
+                                    <i class="fas fa-eye"></i> Xem
+                                </a>
                             </td>
                         </tr>
                     </c:forEach>

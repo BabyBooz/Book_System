@@ -2,30 +2,55 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Product Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý sản phẩm - Admin</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <div class="admin-header">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <h2>Product Manager</h2>
-                <p>Welcome: ${sessionScope.admin.username}</p>
-            </div>
-            <div style="display: flex; gap: 10px;">
-                <a href="${pageContext.request.contextPath}/admin/dashboard" class="btn btn-secondary">Dashboard</a>
-                <a href="${pageContext.request.contextPath}/admin/logout" class="btn btn-danger">Logout</a>
-            </div>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="${pageContext.request.contextPath}/admin/dashboard" class="logo">
+                <i class="fas fa-user-shield"></i> Admin Panel
+            </a>
+            <nav class="nav-menu">
+                <a href="${pageContext.request.contextPath}/admin/dashboard">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="${pageContext.request.contextPath}/admin/customers">
+                    <i class="fas fa-users"></i> Khách hàng
+                </a>
+                <a href="${pageContext.request.contextPath}/admin/products">
+                    <i class="fas fa-box"></i> Sản phẩm
+                </a>
+                <a href="${pageContext.request.contextPath}/admin/genres">
+                    <i class="fas fa-tags"></i> Danh mục
+                </a>
+                <a href="${pageContext.request.contextPath}/admin/bills">
+                    <i class="fas fa-file-invoice"></i> Đơn hàng
+                </a>
+                <span class="user-info">
+                    <i class="fas fa-user"></i> ${sessionScope.admin.username}
+                </span>
+                <a href="${pageContext.request.contextPath}/admin/logout">
+                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                </a>
+            </nav>
         </div>
-    </div>
+    </header>
     
     <div class="admin-container">
-        <h3 style="color: #2d6a4f; margin-bottom: 20px;">Quản lý sản phẩm</h3>
+        <h2 style="color: #2d6a4f; margin-bottom: 30px; font-size: 32px;">
+            <i class="fas fa-box"></i> Quản lý sản phẩm
+        </h2>
         
-        <button onclick="showAddForm()" class="btn btn-primary" style="margin-bottom: 20px;">Thêm sách mới</button>
+        <button onclick="showAddForm()" class="btn btn-primary" style="margin-bottom: 20px;">
+            <i class="fas fa-plus-circle"></i> Thêm sách mới
+        </button>
         
         <div id="addForm" style="display: none; background: white; padding: 20px; border-radius: 4px; margin-bottom: 20px;">
             <h4 style="color: #2d6a4f;">Thêm sách mới</h4>
@@ -70,8 +95,12 @@
                     <label>Hình ảnh URL:</label>
                     <input type="text" name="imageUrl">
                 </div>
-                <button type="submit" class="btn btn-primary">Thêm</button>
-                <button type="button" onclick="hideAddForm()" class="btn btn-secondary">Hủy</button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Thêm
+                </button>
+                <button type="button" onclick="hideAddForm()" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Hủy
+                </button>
             </form>
         </div>
         
@@ -105,13 +134,21 @@
                                 </c:if>
                             </td>
                             <td>
-                                <button onclick="showEditForm(${book.bookId}, '${book.title}', ${book.price}, '${book.description}', ${book.authorId}, ${book.genreId}, ${book.status}, '${book.imageUrl}')" 
-                                        class="btn btn-primary" style="padding: 4px 8px; font-size: 12px;">Sửa</button>
+                                <a href="${pageContext.request.contextPath}/book?id=${book.bookId}" 
+                                   class="btn btn-secondary" style="padding: 6px 12px; font-size: 13px; margin-right: 5px; text-decoration: none;">
+                                    <i class="fas fa-eye"></i> Xem
+                                </a>
+                                <button onclick='showEditForm(${book.bookId})' 
+                                        class="btn btn-primary" style="padding: 6px 12px; font-size: 13px; margin-right: 5px;">
+                                    <i class="fas fa-edit"></i> Sửa
+                                </button>
                                 <form action="${pageContext.request.contextPath}/admin/products" method="post" style="display: inline;">
                                     <input type="hidden" name="action" value="delete">
                                     <input type="hidden" name="bookId" value="${book.bookId}">
-                                    <button type="submit" class="btn btn-danger" style="padding: 4px 8px; font-size: 12px;" 
-                                            onclick="return confirm('Bạn có chắc muốn xóa sách này?')">Xóa</button>
+                                    <button type="submit" class="btn btn-danger" style="padding: 6px 12px; font-size: 13px;" 
+                                            onclick="return confirm('Bạn có chắc muốn xóa sách này?')">
+                                        <i class="fas fa-trash"></i> Xóa
+                                    </button>
                                 </form>
                             </td>
                         </tr>
@@ -164,8 +201,12 @@
                     <label>Hình ảnh URL:</label>
                     <input type="text" name="imageUrl" id="editImageUrl">
                 </div>
-                <button type="submit" class="btn btn-primary">Cập nhật</button>
-                <button type="button" onclick="hideEditForm()" class="btn btn-secondary">Hủy</button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Cập nhật
+                </button>
+                <button type="button" onclick="hideEditForm()" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Hủy
+                </button>
             </form>
         </div>
     </div>
@@ -173,20 +214,40 @@
     <script>
         function showAddForm() {
             document.getElementById('addForm').style.display = 'block';
+            window.scrollTo(0, 0);
         }
         function hideAddForm() {
             document.getElementById('addForm').style.display = 'none';
         }
-        function showEditForm(id, title, price, desc, authorId, genreId, status, imageUrl) {
-            document.getElementById('editBookId').value = id;
-            document.getElementById('editTitle').value = title;
-            document.getElementById('editPrice').value = price;
-            document.getElementById('editDescription').value = desc;
-            document.getElementById('editAuthorId').value = authorId;
-            document.getElementById('editGenreId').value = genreId;
-            document.getElementById('editStatus').value = status ? '1' : '0';
-            document.getElementById('editImageUrl').value = imageUrl;
-            document.getElementById('editForm').style.display = 'block';
+        function showEditForm(bookId) {
+            // Tìm thông tin sách từ bảng
+            var books = {
+                <c:forEach var="book" items="${books}" varStatus="status">
+                ${book.bookId}: {
+                    title: `${book.title}`,
+                    price: ${book.price},
+                    description: `${book.description}`,
+                    authorId: ${book.authorId},
+                    genreId: ${book.genreId},
+                    status: ${book.status},
+                    imageUrl: `${book.imageUrl}`
+                }<c:if test="${!status.last}">,</c:if>
+                </c:forEach>
+            };
+            
+            var book = books[bookId];
+            if (book) {
+                document.getElementById('editBookId').value = bookId;
+                document.getElementById('editTitle').value = book.title;
+                document.getElementById('editPrice').value = book.price;
+                document.getElementById('editDescription').value = book.description;
+                document.getElementById('editAuthorId').value = book.authorId;
+                document.getElementById('editGenreId').value = book.genreId;
+                document.getElementById('editStatus').value = book.status ? '1' : '0';
+                document.getElementById('editImageUrl').value = book.imageUrl;
+                document.getElementById('editForm').style.display = 'block';
+                document.getElementById('editForm').scrollIntoView({ behavior: 'smooth' });
+            }
         }
         function hideEditForm() {
             document.getElementById('editForm').style.display = 'none';

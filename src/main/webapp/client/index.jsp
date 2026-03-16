@@ -6,71 +6,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cửa hàng sách</title>
+    <title>Trang chủ - Cửa hàng sách</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <!-- Banner -->
-    <div class="banner">
-        <div class="banner-info">
-            <c:if test="${not empty sessionScope.user}">
-                <span>Roll Number: ${sessionScope.user.rollNumber}</span>
-                <span>Full Name: ${sessionScope.user.fullName}</span>
-                <span>Welcome: ${sessionScope.user.username}</span>
-            </c:if>
-            <c:if test="${empty sessionScope.user}">
-                <span>Welcome: Guest</span>
-            </c:if>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="${pageContext.request.contextPath}/" class="logo">
+                <i class="fas fa-book"></i> Cửa hàng sách
+            </a>
+            <nav class="nav-menu">
+                <a href="${pageContext.request.contextPath}/"><i class="fas fa-home"></i> Trang chủ</a>
+                <c:choose>
+                    <c:when test="${not empty sessionScope.user}">
+                        <span class="user-info">
+                            <i class="fas fa-user"></i> ${sessionScope.user.fullName}
+                        </span>
+                        <a href="${pageContext.request.contextPath}/cart">
+                            <i class="fas fa-shopping-cart"></i> Giỏ hàng
+                        </a>
+                        <a href="${pageContext.request.contextPath}/logout">
+                            <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                        </a>
+                    </c:when>
+                    <c:when test="${not empty sessionScope.admin}">
+                        <span class="user-info">
+                            <i class="fas fa-user-shield"></i> Admin: ${sessionScope.admin.fullName}
+                        </span>
+                        <a href="${pageContext.request.contextPath}/admin/dashboard" style="background: rgba(255,255,255,0.2);">
+                            <i class="fas fa-tachometer-alt"></i> Admin Panel
+                        </a>
+                        <a href="${pageContext.request.contextPath}/admin/logout">
+                            <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                        </a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="${pageContext.request.contextPath}/login">
+                            <i class="fas fa-sign-in-alt"></i> Đăng nhập
+                        </a>
+                        <a href="${pageContext.request.contextPath}/register">
+                            <i class="fas fa-user-plus"></i> Đăng ký
+                        </a>
+                    </c:otherwise>
+                </c:choose>
+            </nav>
         </div>
-        <div class="banner-actions">
-            <c:if test="${empty sessionScope.user}">
-                <a href="${pageContext.request.contextPath}/login" class="btn btn-primary">Login</a>
-                <a href="${pageContext.request.contextPath}/register" class="btn btn-secondary">Register</a>
-            </c:if>
-            <c:if test="${not empty sessionScope.user}">
-                <a href="${pageContext.request.contextPath}/cart" class="btn btn-primary">Show Cart</a>
-                <a href="${pageContext.request.contextPath}/logout" class="btn btn-danger">Logout</a>
-            </c:if>
-        </div>
-    </div>
+    </header>
 
-    <!-- Menu -->
-    <div class="menu">
-        <h3>Thể loại</h3>
-        <div class="menu-list">
-            <a href="${pageContext.request.contextPath}/" class="menu-item">Tất cả</a>
-            <c:forEach var="genre" items="${genres}">
-                <a href="${pageContext.request.contextPath}/?genreId=${genre.genreId}" class="menu-item">${genre.name}</a>
-            </c:forEach>
-        </div>
-    </div>
+    <!-- Main Layout with Sidebar -->
+    <div class="page-wrapper">
+        <!-- Sidebar Categories -->
+        <aside class="sidebar-categories">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-list"></i> Danh mục</h3>
+            </div>
+            <ul class="category-list">
+                <li>
+                    <a href="${pageContext.request.contextPath}/" 
+                       class="category-item ${empty param.genreId ? 'active' : ''}">
+                        <i class="fas fa-th"></i> Tất cả sản phẩm
+                    </a>
+                </li>
+                <c:forEach var="genre" items="${genres}">
+                    <li>
+                        <a href="${pageContext.request.contextPath}/?genreId=${genre.genreId}" 
+                           class="category-item ${param.genreId == genre.genreId ? 'active' : ''}">
+                            <i class="fas fa-bookmark"></i> ${genre.name}
+                        </a>
+                    </li>
+                </c:forEach>
+            </ul>
+        </aside>
 
-    <!-- Content -->
-    <div class="content">
-        <h2 style="color: #2d6a4f; margin-bottom: 20px;">Danh sách sách</h2>
-        <div class="book-grid">
-            <c:forEach var="book" items="${books}">
-                <div class="book-card">
-                    <div class="book-image" style="background-color: #d8f3dc; display: flex; align-items: center; justify-content: center; color: #2d6a4f;">
-                        ${book.imageUrl}
+        <!-- Main Content Area -->
+        <main class="main-content-area">
+            <div class="content-header">
+                <h2>
+                    <i class="fas fa-book"></i> 
+                    <c:choose>
+                        <c:when test="${not empty param.genreId}">
+                            <c:forEach var="genre" items="${genres}">
+                                <c:if test="${genre.genreId == param.genreId}">
+                                    ${genre.name}
+                                </c:if>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            Tất cả sản phẩm
+                        </c:otherwise>
+                    </c:choose>
+                </h2>
+            </div>
+
+            <div class="book-grid">
+                <c:forEach var="book" items="${books}">
+                    <div class="book-card">
+                        <div class="book-image">
+                            <i class="fas fa-book" style="font-size: 48px; opacity: 0.5;"></i>
+                        </div>
+                        <div class="book-title">${book.title}</div>
+                        <div class="book-author">
+                            <i class="fas fa-user-edit"></i> ${book.authorName}
+                        </div>
+                        <div class="book-price">
+                            <i class="fas fa-tag"></i> <fmt:formatNumber value="${book.price}" type="number" maxFractionDigits="0"/> VNĐ
+                        </div>
+                        <div class="book-description">${book.description}</div>
+                        
+                        <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px;">
+                            <a href="${pageContext.request.contextPath}/book?id=${book.bookId}" 
+                               class="btn btn-secondary" style="width: 100%; text-align: center; text-decoration: none;">
+                                <i class="fas fa-eye"></i> Xem chi tiết
+                            </a>
+                            
+                            <c:if test="${not empty sessionScope.user}">
+                                <form action="${pageContext.request.contextPath}/cart" method="post">
+                                    <input type="hidden" name="action" value="add">
+                                    <input type="hidden" name="bookId" value="${book.bookId}">
+                                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                        <i class="fas fa-cart-plus"></i> Thêm vào giỏ
+                                    </button>
+                                </form>
+                            </c:if>
+                            <c:if test="${empty sessionScope.user and empty sessionScope.admin}">
+                                <a href="${pageContext.request.contextPath}/login" class="btn btn-primary" 
+                                   style="width: 100%; text-align: center; text-decoration: none;">
+                                    <i class="fas fa-sign-in-alt"></i> Đăng nhập để mua
+                                </a>
+                            </c:if>
+                        </div>
                     </div>
-                    <div class="book-title">${book.title}</div>
-                    <div class="book-author">Tác giả: ${book.authorName}</div>
-                    <div class="book-price"><fmt:formatNumber value="${book.price}" type="number" maxFractionDigits="0"/> VNĐ</div>
-                    <div class="book-description">${book.description}</div>
-                    <c:if test="${not empty sessionScope.user}">
-                        <form action="${pageContext.request.contextPath}/cart" method="post">
-                            <input type="hidden" name="action" value="add">
-                            <input type="hidden" name="bookId" value="${book.bookId}">
-                            <button type="submit" class="btn btn-primary" style="width: 100%;">Add to Cart</button>
-                        </form>
-                    </c:if>
-                    <c:if test="${empty sessionScope.user}">
-                        <a href="${pageContext.request.contextPath}/login" class="btn btn-secondary" style="width: 100%; text-align: center;">Login to buy</a>
-                    </c:if>
-                </div>
-            </c:forEach>
-        </div>
+                </c:forEach>
+            </div>
+        </main>
     </div>
 </body>
 </html>

@@ -1,7 +1,5 @@
 package com.bookstore.servlet.admin;
 
-import com.bookstore.dao.UserDAO;
-import com.bookstore.model.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -9,29 +7,18 @@ import java.io.IOException;
 
 @WebServlet("/admin/login")
 public class AdminLoginServlet extends HttpServlet {
-    private UserDAO userDAO = new UserDAO();
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        request.getRequestDispatcher("/admin/login.jsp").forward(request, response);
+        // Redirect đến trang login chung
+        response.sendRedirect(request.getContextPath() + "/login");
     }
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        
-        User user = userDAO.login(username, password);
-        
-        if (user != null && "admin".equals(user.getRole())) {
-            HttpSession session = request.getSession();
-            session.setAttribute("admin", user);
-            response.sendRedirect(request.getContextPath() + "/admin/dashboard");
-        } else {
-            request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng!");
-            request.getRequestDispatcher("/admin/login.jsp").forward(request, response);
-        }
+        // Redirect đến trang login chung
+        response.sendRedirect(request.getContextPath() + "/login");
     }
 }
