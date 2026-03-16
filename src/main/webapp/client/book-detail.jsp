@@ -108,21 +108,28 @@
                     </p>
                 </div>
                 
-                <c:if test="${not empty sessionScope.user}">
-                    <form action="${pageContext.request.contextPath}/cart" method="post">
-                        <input type="hidden" name="action" value="add">
-                        <input type="hidden" name="bookId" value="${book.bookId}">
-                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 16px; font-size: 18px;">
-                            <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
-                        </button>
-                    </form>
-                </c:if>
-                <c:if test="${empty sessionScope.user}">
-                    <a href="${pageContext.request.contextPath}/login" class="btn btn-primary" 
-                       style="width: 100%; text-align: center; padding: 16px; font-size: 18px; display: block; text-decoration: none;">
-                        <i class="fas fa-sign-in-alt"></i> Đăng nhập để mua
-                    </a>
-                </c:if>
+                <c:choose>
+                    <c:when test="${not empty sessionScope.user}">
+                        <form action="${pageContext.request.contextPath}/cart" method="post">
+                            <input type="hidden" name="action" value="add">
+                            <input type="hidden" name="bookId" value="${book.bookId}">
+                            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 16px; font-size: 18px;">
+                                <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
+                            </button>
+                        </form>
+                    </c:when>
+                    <c:when test="${not empty sessionScope.admin}">
+                        <div style="padding: 16px; background: #f0f0f0; border-radius: 4px; text-align: center;">
+                            <i class="fas fa-user-shield"></i> Bạn đang đăng nhập với tài khoản Admin
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="${pageContext.request.contextPath}/login" class="btn btn-primary" 
+                           style="width: 100%; text-align: center; padding: 16px; font-size: 18px; display: block; text-decoration: none;">
+                            <i class="fas fa-sign-in-alt"></i> Đăng nhập để mua
+                        </a>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
     </div>
