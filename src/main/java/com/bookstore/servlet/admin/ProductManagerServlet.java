@@ -10,6 +10,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -119,29 +120,53 @@ public class ProductManagerServlet extends HttpServlet {
         
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         
-        // Tạo tên file unique
+        // Kiểm tra định dạng file
         String fileExtension = "";
         int dotIndex = fileName.lastIndexOf('.');
         if (dotIndex > 0) {
-            fileExtension = fileName.substring(dotIndex);
+            fileExtension = fileName.substring(dotIndex).toLowerCase();
         }
+        
+        if (!fileExtension.matches("\\.(jpg|jpeg|png|gif|webp)")) {
+            return null;
+        }
+        
+        // Tạo tên file unique
         String uniqueFileName = UUID.randomUUID().toString() + fileExtension;
         
-        // Lấy đường dẫn thực tế của thư mục webapp
-        String applicationPath = request.getServletContext().getRealPath("");
-        String uploadPath = applicationPath + File.separator + UPLOAD_DIR;
+        // Lấy đường dẫn thực tế của project (src/main/webapp/images)
+        String realPath = getServletContext().getRealPath("/" + UPLOAD_DIR);
+        String projectPath = realPath.replace("target" + File.separator + "Book_System-1", 
+                                             "src" + File.separator + "main" + File.separator + "webapp");
+        
+        System.out.println("=== UPLOAD DEBUG ===");
+        System.out.println("Real Path: " + realPath);
+        System.out.println("Project Path: " + projectPath);
         
         // Tạo thư mục nếu chưa tồn tại
-        File uploadDir = new File(uploadPath);
+        File uploadDir = new File(projectPath);
         if (!uploadDir.exists()) {
             uploadDir.mkdirs();
+            System.out.println("Created directory: " + projectPath);
         }
         
-        // Lưu file
-        Path filePath = Paths.get(uploadPath, uniqueFileName);
-        Files.copy(filePart.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        // Lưu file vào thư mục nguồn (src/main/webapp/images)
+        String filePath = projectPath + File.separator + uniqueFileName;
+        try (InputStream input = filePart.getInputStream()) {
+            Files.copy(input, Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("File saved to SRC: " + filePath);
+        }
         
-        // Trả về đường dẫn relative
+        // Copy sang thư mục target để hiển thị ngay
+        String targetPath = realPath + File.separator + uniqueFileName;
+        File targetDir = new File(realPath);
+        if (!targetDir.exists()) {
+            targetDir.mkdirs();
+        }
+        Files.copy(Paths.get(filePath), Paths.get(targetPath), StandardCopyOption.REPLACE_EXISTING);
+        System.out.println("File copied to TARGET: " + targetPath);
+        
+        // Trả về đường dẫn tương đối để lưu vào database
         return UPLOAD_DIR + "/" + uniqueFileName;
     }
 }
