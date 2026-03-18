@@ -52,7 +52,7 @@
             <i class="fas fa-plus-circle"></i> Thêm sách mới
         </button>
         
-        <div id="addForm" style="display: none; background: white; padding: 20px; border-radius: 4px; margin-bottom: 20px;">
+        <div id="addForm" style="display: none; background: white; padding: 20px; border: 1px solid #ddd; margin-bottom: 20px;">
             <h4 style="color: #2d6a4f;">Thêm sách mới</h4>
             <form action="${pageContext.request.contextPath}/admin/products" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="add">
@@ -158,7 +158,7 @@
             </table>
         </div>
         
-        <div id="editForm" style="display: none; background: white; padding: 20px; border-radius: 4px; margin-top: 20px;">
+        <div id="editForm" style="display: none; background: white; padding: 20px; border: 1px solid #ddd; margin-top: 20px;">
             <h4 style="color: #2d6a4f;">Sửa thông tin sách</h4>
             <form action="${pageContext.request.contextPath}/admin/products" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="update">
@@ -256,7 +256,7 @@
                 // Hiển thị ảnh hiện tại
                 var currentImageDiv = document.getElementById('currentImage');
                 if (book.imageUrl && book.imageUrl !== 'null' && book.imageUrl !== '') {
-                    currentImageDiv.innerHTML = '<img src="${pageContext.request.contextPath}/' + book.imageUrl + '" style="max-width: 200px; max-height: 200px; border-radius: 4px; border: 1px solid #ddd;">';
+                    currentImageDiv.innerHTML = '<img src="${pageContext.request.contextPath}/' + book.imageUrl + '" style="max-width: 200px; max-height: 200px; border: 2px solid #999;">';
                 } else {
                     currentImageDiv.innerHTML = '<p style="color: #999;">Chưa có ảnh</p>';
                 }
@@ -274,7 +274,7 @@
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 reader.onload = function(e) {
-                    preview.innerHTML = '<img src="' + e.target.result + '" style="max-width: 200px; max-height: 200px; border-radius: 4px; border: 1px solid #ddd;">';
+                    preview.innerHTML = '<img src="' + e.target.result + '" style="max-width: 200px; max-height: 200px; border: 2px solid #999;">';
                 }
                 reader.readAsDataURL(input.files[0]);
             } else {

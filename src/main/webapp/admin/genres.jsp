@@ -52,7 +52,7 @@
         </button>
         
         <!-- Add Form -->
-        <div id="addForm" style="display: none; background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+        <div id="addForm" style="display: none; background: white; padding: 20px; border: 1px solid #ddd; margin-bottom: 20px;">
             <h4 style="color: #2d6a4f; margin-bottom: 15px;">
                 <i class="fas fa-plus"></i> Thêm danh mục mới
             </h4>
@@ -107,7 +107,7 @@
         </div>
         
         <!-- Edit Form -->
-        <div id="editForm" style="display: none; background: white; padding: 20px; border-radius: 12px; margin-top: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+        <div id="editForm" style="display: none; background: white; padding: 20px; border: 1px solid #ddd; margin-top: 20px;">
             <h4 style="color: #2d6a4f; margin-bottom: 15px;">
                 <i class="fas fa-edit"></i> Sửa thông tin danh mục
             </h4>

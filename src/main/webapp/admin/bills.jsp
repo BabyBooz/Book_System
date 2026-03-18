@@ -52,15 +52,6 @@
             <a href="${pageContext.request.contextPath}/admin/bills" class="btn ${empty currentStatus ? 'btn-primary' : 'btn-secondary'}">
                 <i class="fas fa-list"></i> Tất cả
             </a>
-            <a href="${pageContext.request.contextPath}/admin/bills?status=wait" class="btn ${'wait' eq currentStatus ? 'btn-primary' : 'btn-secondary'}">
-                <i class="fas fa-clock"></i> Chờ xử lý
-            </a>
-            <a href="${pageContext.request.contextPath}/admin/bills?status=process" class="btn ${'process' eq currentStatus ? 'btn-primary' : 'btn-secondary'}">
-                <i class="fas fa-spinner"></i> Đang xử lý
-            </a>
-            <a href="${pageContext.request.contextPath}/admin/bills?status=done" class="btn ${'done' eq currentStatus ? 'btn-primary' : 'btn-secondary'}">
-                <i class="fas fa-check-circle"></i> Hoàn thành
-            </a>
         </div>
         
         <div class="data-table">

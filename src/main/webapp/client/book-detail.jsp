@@ -68,12 +68,11 @@
                     <c:when test="${not empty book.imageUrl and book.imageUrl ne 'null'}">
                         <img src="${pageContext.request.contextPath}/${book.imageUrl}" 
                              alt="${book.title}" 
-                             style="width: 100%; height: auto; border-radius: 4px; box-shadow: 0 8px 16px rgba(0,0,0,0.1);">
+                             style="width: 100%; height: auto; border: 2px solid #999;">
                     </c:when>
                     <c:otherwise>
-                        <div style="width: 100%; height: 400px; background-color: var(--background-light); 
-                                    border-radius: 4px; display: flex; align-items: center; justify-content: center; 
-                                    box-shadow: 0 8px 16px rgba(0,0,0,0.1);">
+                        <div style="width: 100%; height: 400px; background-color: #ddd; 
+                                    border: 2px solid #999; display: flex; align-items: center; justify-content: center;">
                             <i class="fas fa-book" style="font-size: 120px; color: var(--text-dark); opacity: 0.5;"></i>
                         </div>
                     </c:otherwise>
@@ -92,8 +91,8 @@
                     </p>
                 </div>
                 
-                <div style="background: linear-gradient(135deg, #d8f3dc 0%, #b7e4c7 100%); 
-                            padding: 20px; border-radius: 12px; margin-bottom: 25px;">
+                <div style="background: #e0e0e0; 
+                            padding: 20px; border: 2px solid #999; margin-bottom: 25px;">
                     <p style="font-size: 32px; color: #2d6a4f; font-weight: bold; margin: 0;">
                         <i class="fas fa-tag"></i> <fmt:formatNumber value="${book.price}" type="number" maxFractionDigits="0"/> VNĐ
                     </p>
@@ -119,7 +118,7 @@
                         </form>
                     </c:when>
                     <c:when test="${not empty sessionScope.admin}">
-                        <div style="padding: 16px; background: #f0f0f0; border-radius: 4px; text-align: center;">
+                        <div style="padding: 16px; background: #f0f0f0; border: 2px solid #ccc; text-align: center;">
                             <i class="fas fa-user-shield"></i> Bạn đang đăng nhập với tài khoản Admin
                         </div>
                     </c:when>

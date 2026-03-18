@@ -23,7 +23,7 @@
     </div>
     
     <div class="admin-container">
-        <div style="background: white; padding: 20px; border-radius: 4px; margin-bottom: 20px;">
+        <div style="background: white; padding: 20px; border: 1px solid #ddd; margin-bottom: 20px;">
             <h3 style="color: #2d6a4f;">Thông tin hóa đơn</h3>
             <p><strong>Mã hóa đơn:</strong> ${order.orderId}</p>
             <p><strong>Khách hàng:</strong> ${order.customerName}</p>
@@ -48,7 +48,7 @@
                 <form action="${pageContext.request.contextPath}/admin/bills" method="post" style="display: flex; gap: 10px; margin-top: 10px;">
                     <input type="hidden" name="action" value="updateStatus">
                     <input type="hidden" name="orderId" value="${order.orderId}">
-                    <select name="status" class="form-group" style="padding: 8px; border-radius: 4px; border: 1px solid #d8f3dc;">
+                    <select name="status" class="form-group" style="padding: 8px; border: 2px solid #ccc;">
                         <option value="wait" ${order.status eq 'wait' ? 'selected' : ''}>Chờ xử lý</option>
                         <option value="process" ${order.status eq 'process' ? 'selected' : ''}>Đang xử lý</option>
                         <option value="done" ${order.status eq 'done' ? 'selected' : ''}>Hoàn thành</option>
